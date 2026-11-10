@@ -72,7 +72,7 @@ export const DCInteractiveMap: React.FC<DCInteractiveMapProps> = ({
     (typeof window !== 'undefined' ? window.GOOGLE_MAPS_API_KEY : '') ||
     '';
 
-  const [mapEngine, setMapEngine] = useState<'google' | 'vector'>('vector');
+  const [mapEngine, setMapEngine] = useState<'google' | 'vector'>('google');
   const [showPriceBadges, setShowPriceBadges] = useState<boolean>(true);
 
   const updateCursorPos = (clientX: number, clientY: number) => {
