@@ -1,0 +1,6 @@
+{
+  "name": "DC Airbnb Homeowner Decision Tool",
+  "description": "Navigate Washington D.C. short-term rental regulations, verify host eligibility, and compare projected net income across Long-Term, Hosted Room, and Whole-Home scenarios with local neighborhood ADR data.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
