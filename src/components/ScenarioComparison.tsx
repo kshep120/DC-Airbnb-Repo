@@ -542,7 +542,7 @@ export const ScenarioComparison: React.FC<ScenarioComparisonProps> = ({
                 </div>
 
                 <p className="text-xs text-slate-500 mt-1.5">
-                  Selecting a bedroom size disaggregates market daily rates (ADR), DC median rent, and financial yields for your specific property.
+                  Selecting a bedroom size disaggregates market Average Daily Rates, DC median rent, and financial yields for your specific property.
                 </p>
               </div>
 
@@ -560,7 +560,7 @@ export const ScenarioComparison: React.FC<ScenarioComparisonProps> = ({
                 </div>
                 <div className="grid grid-cols-2 gap-2 text-xs pt-0.5">
                   <div>
-                    <span className="text-slate-500 block text-[11px]">Nightly ADR:</span>
+                    <span className="text-slate-500 block text-[11px]">Average Daily Rate:</span>
                     <strong className="text-slate-900 font-mono text-sm tabular-nums">
                       {formatCurrency(bedroomStats.medianADR)}
                     </strong>
@@ -677,7 +677,7 @@ export const ScenarioComparison: React.FC<ScenarioComparisonProps> = ({
           <div>
             <div className="flex items-center justify-between mb-1.5 flex-wrap gap-1">
               <label htmlFor={wholeHomeAdrInputId} className="block text-xs font-bold uppercase tracking-wider text-slate-700">
-                Whole-Home ADR ($/Night)
+                Whole-Home Average Daily Rate ($/Night)
               </label>
               <div className="flex items-center gap-1.5">
                 {adr !== bedroomStats.medianADR && (
@@ -685,7 +685,7 @@ export const ScenarioComparison: React.FC<ScenarioComparisonProps> = ({
                     type="button"
                     onClick={() => setAdr(bedroomStats.medianADR)}
                     className="text-[11px] px-2 py-0.5 bg-blue-50 hover:bg-blue-100 text-blue-700 font-medium rounded transition-colors border border-blue-200 cursor-pointer"
-                    title={`Snap to DC STR median ADR for ${selectedNeighborhood.split(',')[0]} (${selectedBedrooms === 'all' ? 'All BRs' : `${selectedBedrooms} BR`})`}
+                    title={`Snap to DC STR Average Daily Rate for ${selectedNeighborhood.split(',')[0]} (${selectedBedrooms === 'all' ? 'All BRs' : `${selectedBedrooms} BR`})`}
                   >
                     Use Median ({formatCurrency(bedroomStats.medianADR)})
                   </button>
@@ -718,7 +718,7 @@ export const ScenarioComparison: React.FC<ScenarioComparisonProps> = ({
               />
             </div>
             <p className="mt-1.5 text-xs text-slate-500">
-              <strong className="text-slate-700 font-semibold">Median ADR</strong> ({selectedBedrooms === 'all' ? 'Overall' : `${selectedBedrooms} BR`}):{' '}
+              <strong className="text-slate-700 font-semibold">Average Daily Rate</strong> ({selectedBedrooms === 'all' ? 'Overall' : `${selectedBedrooms} BR`}):{' '}
               <span className="font-semibold text-slate-900 font-mono tabular-nums">
                 {formatCurrency(bedroomStats.medianADR)}/nt
               </span>

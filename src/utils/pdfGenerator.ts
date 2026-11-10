@@ -125,7 +125,7 @@ export function generateDecisionReportPDF(data: PDFReportData): void {
   const propText = (data.propertyLabel ? data.propertyLabel + ' · ' : '') + bedText + 'DC Cluster: ' + data.neighborhood.split(',')[0];
   doc.text(propText, margin + 12, y + 30, { maxWidth: 300 });
 
-  const marketText = 'ADR: $' + (data.neighborhoodStats?.medianPrice ?? 150) + ' · Median Rent: $' + (data.neighborhoodStats?.medianMonthlyRent ?? 2400) + '/mo';
+  const marketText = 'Average Daily Rate: $' + (data.neighborhoodStats?.medianPrice ?? 150) + ' · Median Rent: $' + (data.neighborhoodStats?.medianMonthlyRent ?? 2400) + '/mo';
   doc.text(marketText, margin + contentWidth - 12, y + 30, { align: 'right' });
 
   y += 50;
@@ -251,7 +251,7 @@ export function generateDecisionReportPDF(data: PDFReportData): void {
       label: 'Base Rate Assumption',
       s1: formatCurrency(data.monthlyRent) + '/mo (Med $' + (data.neighborhoodStats?.medianMonthlyRent ?? 2400) + ')',
       s2: formatCurrency(privateRoomADR) + '/nt (' + data.privateRoomRatio + '%)',
-      s3: formatCurrency(data.adr) + '/nt (ADR)'
+      s3: formatCurrency(data.adr) + '/nt (Average Daily Rate)'
     },
     {
       label: 'Gross Annual Revenue',
@@ -363,7 +363,7 @@ export function generateDecisionReportPDF(data: PDFReportData): void {
   doc.setTextColor(cSlate600[0], cSlate600[1], cSlate600[2]);
 
   doc.text(
-    '- Whole-Home ADR Parity: Average Daily Rate must reach ' + formatCurrency(breakEvenWholeADR) + '/night over 90 days to equal traditional lease net (' + formatCurrency(s1Net) + ').',
+    '- Whole-Home Rate Parity: Average Daily Rate must reach ' + formatCurrency(breakEvenWholeADR) + '/night over 90 days to equal traditional lease net (' + formatCurrency(s1Net) + ').',
     margin + 10,
     y + 14,
     { maxWidth: contentWidth - 20 }
