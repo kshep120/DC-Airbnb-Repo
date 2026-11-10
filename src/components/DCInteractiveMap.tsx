@@ -62,10 +62,18 @@ export const DCInteractiveMap: React.FC<DCInteractiveMapProps> = ({
   const [hoveredName, setHoveredName] = useState<string | null>(null);
   const [cursorPos, setCursorPos] = useState<{ x: number; y: number } | null>(null);
   const mapContainerRef = React.useRef<HTMLDivElement>(null);
-  const [mapEngine, setMapEngine] = useState<'google' | 'vector'>('google');
-  const [showPriceBadges, setShowPriceBadges] = useState<boolean>(true);
   const [customKey, setCustomKey] = useState<string>('');
   const [showKeyInput, setShowKeyInput] = useState<boolean>(false);
+
+  // Check if API key is provided via env var, window global, or user manual input
+  const apiKey =
+    customKey.trim() ||
+    import.meta.env.VITE_GOOGLE_MAPS_API_KEY ||
+    (typeof window !== 'undefined' ? window.GOOGLE_MAPS_API_KEY : '') ||
+    '';
+
+  const [mapEngine, setMapEngine] = useState<'google' | 'vector'>(() => (apiKey ? 'google' : 'vector'));
+  const [showPriceBadges, setShowPriceBadges] = useState<boolean>(true);
 
   const updateCursorPos = (clientX: number, clientY: number) => {
     if (!mapContainerRef.current) return;
@@ -75,13 +83,6 @@ export const DCInteractiveMap: React.FC<DCInteractiveMapProps> = ({
       y: clientY - rect.top,
     });
   };
-
-  // Check if API key is provided via env var, window global, or user manual input
-  const apiKey =
-    customKey.trim() ||
-    import.meta.env.VITE_GOOGLE_MAPS_API_KEY ||
-    (typeof window !== 'undefined' ? window.GOOGLE_MAPS_API_KEY : '') ||
-    '';
 
   const statsArray = useMemo(() => Array.from(neighborhoodStats.values()), [neighborhoodStats]);
   const activeStat = neighborhoodStats.get(selectedNeighborhood) ?? statsArray[0];
@@ -263,153 +264,183 @@ export const DCInteractiveMap: React.FC<DCInteractiveMapProps> = ({
 
         {mapEngine === 'google' ? (
           <div className="w-full h-[540px] relative bg-slate-100">
-            <APIProvider apiKey={apiKey}>
-              <GoogleMap
-                id="dc-market-map"
-                mapId="DEMO_MAP_ID"
-                defaultCenter={DC_CENTER}
-                defaultZoom={11.8}
-                gestureHandling="greedy"
-                disableDefaultUI={false}
-                onMouseMove={(e: MapMouseEvent) => {
-                  if (e.domEvent && 'clientX' in e.domEvent) {
-                    updateCursorPos(e.domEvent.clientX, e.domEvent.clientY);
-                  }
-                }}
-                internalUsageAttributionIds={['gmp_mcp_codeassist_v1_aistudio']}
-                style={{ width: '100%', height: '100%' }}
-              >
-                {/* Render Colored Polygons for all 39 DC Neighborhoods */}
-                {Object.entries(dcBoundaries).map(([name, rings]) => {
-                  const stat = neighborhoodStats.get(name);
-                  const price = stat?.medianPrice ?? 150;
-                  const colors = getRateTierColor(price);
-                  const isSelected = selectedNeighborhood === name;
-                  const isHovered = hoveredName === name;
-
-                  return (
-                    <Polygon
-                      key={`poly-${name}`}
-                      paths={rings[0]}
-                      strokeColor={isSelected ? '#0f172a' : isHovered ? '#0f172a' : colors.border}
-                      strokeOpacity={isSelected ? 1.0 : isHovered ? 1.0 : 0.85}
-                      strokeWeight={isSelected ? 3.5 : isHovered ? 2.5 : 1.5}
-                      fillColor={isSelected ? colors.bg : colors.bg}
-                      fillOpacity={isSelected ? 0.65 : isHovered ? 0.55 : 0.35}
-                      clickable={true}
-                      onClick={() => {
-                        onSelectNeighborhood(name);
-                        setActiveInfoName(name);
-                      }}
-                      onMouseOver={(e: MapMouseEvent) => {
-                        setHoveredName(name);
-                        if (e?.domEvent && 'clientX' in e.domEvent) {
-                          updateCursorPos(e.domEvent.clientX, e.domEvent.clientY);
-                        }
-                      }}
-                      onMouseOut={() => setHoveredName(null)}
-                    />
-                  );
-                })}
-
-                {/* Optional centroid rate badges */}
-                {showPriceBadges &&
-                  statsArray.map((stat) => {
-                    const isSelected = selectedNeighborhood === stat.name;
-                    const colors = getRateTierColor(stat.medianPrice);
+            {!apiKey ? (
+              <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center bg-white z-20">
+                <div className="max-w-md space-y-4">
+                  <div className="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center mx-auto">
+                    <Compass className="w-6 h-6" />
+                  </div>
+                  <h4 className="text-base font-bold text-slate-900">Google Maps API Key Required</h4>
+                  <p className="text-xs text-slate-600">
+                    A Google Maps API key is not currently configured. You can instantly use the high-fidelity <strong className="text-slate-900">DC Boundary View</strong> (which requires no API key) or enter a key below.
+                  </p>
+                  <div className="flex flex-col sm:flex-row items-center justify-center gap-2 pt-2">
+                    <button
+                      type="button"
+                      onClick={() => setMapEngine('vector')}
+                      className="w-full sm:w-auto px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-xs font-semibold shadow-xs cursor-pointer"
+                    >
+                      Switch to DC Boundary View
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setShowKeyInput(true)}
+                      className="w-full sm:w-auto px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-semibold cursor-pointer"
+                    >
+                      Enter API Key
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <APIProvider apiKey={apiKey}>
+                <GoogleMap
+                  id="dc-market-map"
+                  mapId="DEMO_MAP_ID"
+                  defaultCenter={DC_CENTER}
+                  defaultZoom={11.8}
+                  gestureHandling="greedy"
+                  disableDefaultUI={false}
+                  onMouseMove={(e: MapMouseEvent) => {
+                    if (e.domEvent && 'clientX' in e.domEvent) {
+                      updateCursorPos(e.domEvent.clientX, e.domEvent.clientY);
+                    }
+                  }}
+                  internalUsageAttributionIds={['gmp_mcp_codeassist_v1_aistudio']}
+                  style={{ width: '100%', height: '100%' }}
+                >
+                  {/* Render Colored Polygons for all 39 DC Neighborhoods */}
+                  {Object.entries(dcBoundaries).map(([name, rings]) => {
+                    const stat = neighborhoodStats.get(name);
+                    const price = stat?.medianPrice ?? 150;
+                    const colors = getRateTierColor(price);
+                    const isSelected = selectedNeighborhood === name;
+                    const isHovered = hoveredName === name;
 
                     return (
-                      <AdvancedMarker
-                        key={`label-${stat.name}`}
-                        position={{ lat: stat.latitude, lng: stat.longitude }}
-                        title={`${stat.name} - ${formatCurrency(stat.medianPrice)}/night`}
+                      <Polygon
+                        key={`poly-${name}`}
+                        paths={rings[0]}
+                        strokeColor={isSelected ? '#0f172a' : isHovered ? '#0f172a' : colors.border}
+                        strokeOpacity={isSelected ? 1.0 : isHovered ? 1.0 : 0.85}
+                        strokeWeight={isSelected ? 3.5 : isHovered ? 2.5 : 1.5}
+                        fillColor={isSelected ? colors.bg : colors.bg}
+                        fillOpacity={isSelected ? 0.65 : isHovered ? 0.55 : 0.35}
+                        clickable={true}
                         onClick={() => {
-                          onSelectNeighborhood(stat.name);
-                          setActiveInfoName(stat.name);
+                          onSelectNeighborhood(name);
+                          setActiveInfoName(name);
                         }}
-                      >
-                        <div
-                          className={`px-1.5 py-0.5 rounded shadow-sm text-[10px] font-mono font-bold transition-transform cursor-pointer border ${
-                            isSelected
-                              ? 'bg-slate-900 text-white border-slate-900 scale-110 ring-2 ring-white z-30'
-                              : 'bg-white/95 text-slate-800 border-slate-300 hover:scale-105 z-10'
-                          }`}
-                        >
-                          <span
-                            className="inline-block w-1.5 h-1.5 rounded-full mr-1"
-                            style={{ backgroundColor: colors.border }}
-                          />
-                          <span>${stat.medianPrice}</span>
-                        </div>
-                      </AdvancedMarker>
+                        onMouseOver={(e: MapMouseEvent) => {
+                          setHoveredName(name);
+                          if (e?.domEvent && 'clientX' in e.domEvent) {
+                            updateCursorPos(e.domEvent.clientX, e.domEvent.clientY);
+                          }
+                        }}
+                        onMouseOut={() => setHoveredName(null)}
+                      />
                     );
                   })}
 
-                {/* InfoWindow for clicked neighborhood */}
-                {activeInfoName && infoStat && (
-                  <InfoWindow
-                    position={{ lat: infoStat.latitude, lng: infoStat.longitude }}
-                    onCloseClick={() => setActiveInfoName(null)}
-                    maxWidth={320}
-                  >
-                    <div className="p-1 text-slate-900 font-sans">
-                      <div className="flex items-center justify-between gap-2 border-b border-slate-200 pb-1.5 mb-2">
-                        <span className="font-bold text-xs text-slate-900 leading-tight">
-                          {infoStat.name}
-                        </span>
-                        <span className="text-[10px] font-mono text-slate-500 whitespace-nowrap">
-                          {infoStat.count} listing{infoStat.count > 1 ? 's' : ''}
-                        </span>
-                      </div>
+                  {/* Optional centroid rate badges */}
+                  {showPriceBadges &&
+                    statsArray.map((stat) => {
+                      const isSelected = selectedNeighborhood === stat.name;
+                      const colors = getRateTierColor(stat.medianPrice);
 
-                      <div className="space-y-1.5 text-xs mb-3">
-                        <div className="flex items-center justify-between">
-                          <span className="text-slate-600">Median Nightly Rate:</span>
-                          <span className="font-mono font-bold text-slate-900">
-                            {formatCurrency(infoStat.medianPrice)}
-                          </span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <span className="text-slate-600">DC Market Median Rent:</span>
-                          <span className="font-mono font-bold text-slate-900">
-                            {formatCurrency(infoStat.medianMonthlyRent ?? 2400)}/mo
-                          </span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <span className="text-slate-600">Entire Home Median Rate:</span>
-                          <span className="font-mono text-slate-700">
-                            {infoStat.entireHomeMedianPrice > 0 ? formatCurrency(infoStat.entireHomeMedianPrice) : '—'}
-                          </span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <span className="text-slate-600">Private Room Median Rate:</span>
-                          <span className="font-mono text-slate-700">
-                            {infoStat.privateRoomMedianPrice > 0 ? formatCurrency(infoStat.privateRoomMedianPrice) : '—'}
-                          </span>
-                        </div>
-                        <div className="flex items-center justify-between text-[11px] text-slate-500 pt-1 border-t border-slate-100">
-                          <span>Observed Range:</span>
-                          <span className="font-mono">${infoStat.minPrice} - ${infoStat.maxPrice}</span>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center gap-2">
-                        <button
-                          type="button"
+                      return (
+                        <AdvancedMarker
+                          key={`label-${stat.name}`}
+                          position={{ lat: stat.latitude, lng: stat.longitude }}
+                          title={`${stat.name} - ${formatCurrency(stat.medianPrice)}/night`}
                           onClick={() => {
-                            onSelectNeighborhood(infoStat.name);
-                            onNavigateToScenarios(infoStat.name);
+                            onSelectNeighborhood(stat.name);
+                            setActiveInfoName(stat.name);
                           }}
-                          className="w-full py-1.5 px-2 bg-slate-900 hover:bg-slate-800 text-white rounded text-[11px] font-semibold transition-colors flex items-center justify-center gap-1 shadow-xs"
                         >
-                          <span>Apply to Step 3 Scenarios</span>
-                        </button>
+                          <div
+                            className={`px-1.5 py-0.5 rounded shadow-sm text-[10px] font-mono font-bold transition-transform cursor-pointer border ${
+                              isSelected
+                                ? 'bg-slate-900 text-white border-slate-900 scale-110 ring-2 ring-white z-30'
+                                : 'bg-white/95 text-slate-800 border-slate-300 hover:scale-105 z-10'
+                            }`}
+                          >
+                            <span
+                              className="inline-block w-1.5 h-1.5 rounded-full mr-1"
+                              style={{ backgroundColor: colors.border }}
+                            />
+                            <span>${stat.medianPrice}</span>
+                          </div>
+                        </AdvancedMarker>
+                      );
+                    })}
+
+                  {/* InfoWindow for clicked neighborhood */}
+                  {activeInfoName && infoStat && (
+                    <InfoWindow
+                      position={{ lat: infoStat.latitude, lng: infoStat.longitude }}
+                      onCloseClick={() => setActiveInfoName(null)}
+                      maxWidth={320}
+                    >
+                      <div className="p-1 text-slate-900 font-sans">
+                        <div className="flex items-center justify-between gap-2 border-b border-slate-200 pb-1.5 mb-2">
+                          <span className="font-bold text-xs text-slate-900 leading-tight">
+                            {infoStat.name}
+                          </span>
+                          <span className="text-[10px] font-mono text-slate-500 whitespace-nowrap">
+                            {infoStat.count} listing{infoStat.count > 1 ? 's' : ''}
+                          </span>
+                        </div>
+
+                        <div className="space-y-1.5 text-xs mb-3">
+                          <div className="flex items-center justify-between">
+                            <span className="text-slate-600">Median Nightly Rate:</span>
+                            <span className="font-mono font-bold text-slate-900">
+                              {formatCurrency(infoStat.medianPrice)}
+                            </span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-slate-600">DC Market Median Rent:</span>
+                            <span className="font-mono font-bold text-slate-900">
+                              {formatCurrency(infoStat.medianMonthlyRent ?? 2400)}/mo
+                            </span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-slate-600">Entire Home Median Rate:</span>
+                            <span className="font-mono text-slate-700">
+                              {infoStat.entireHomeMedianPrice > 0 ? formatCurrency(infoStat.entireHomeMedianPrice) : '—'}
+                            </span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-slate-600">Private Room Median Rate:</span>
+                            <span className="font-mono text-slate-700">
+                              {infoStat.privateRoomMedianPrice > 0 ? formatCurrency(infoStat.privateRoomMedianPrice) : '—'}
+                            </span>
+                          </div>
+                          <div className="flex items-center justify-between text-[11px] text-slate-500 pt-1 border-t border-slate-100">
+                            <span>Observed Range:</span>
+                            <span className="font-mono">${infoStat.minPrice} - ${infoStat.maxPrice}</span>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              onSelectNeighborhood(infoStat.name);
+                              onNavigateToScenarios(infoStat.name);
+                            }}
+                            className="w-full py-1.5 px-2 bg-slate-900 hover:bg-slate-800 text-white rounded text-[11px] font-semibold transition-colors flex items-center justify-center gap-1 shadow-xs"
+                          >
+                            <span>Apply to Step 3 Scenarios</span>
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                  </InfoWindow>
-                )}
-              </GoogleMap>
-            </APIProvider>
+                    </InfoWindow>
+                  )}
+                </GoogleMap>
+              </APIProvider>
+            )}
           </div>
         ) : (
           /* High-Fidelity DC Vector / Boundary Canvas */
