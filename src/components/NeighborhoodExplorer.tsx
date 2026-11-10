@@ -230,13 +230,15 @@ export const NeighborhoodExplorer: React.FC<NeighborhoodExplorerProps> = ({
 
       {/* SubTab 0: Interactive DC Map */}
       {activeSubTab === 'map' && (
-        <DCInteractiveMap
-          listings={listings}
-          neighborhoodStats={neighborhoodStats}
-          selectedNeighborhood={selectedNeighborhood}
-          onSelectNeighborhood={onSelectNeighborhood}
-          onNavigateToScenarios={onNavigateToScenarios}
-        />
+        <MapErrorBoundary>
+          <DCInteractiveMap
+            listings={listings}
+            neighborhoodStats={neighborhoodStats}
+            selectedNeighborhood={selectedNeighborhood}
+            onSelectNeighborhood={onSelectNeighborhood}
+            onNavigateToScenarios={onNavigateToScenarios}
+          />
+        </MapErrorBoundary>
       )}
 
       {/* SubTab 1: Neighborhood Table */}
@@ -444,3 +446,30 @@ export const NeighborhoodExplorer: React.FC<NeighborhoodExplorerProps> = ({
     </div>
   );
 };
+
+class MapErrorBoundary extends React.Component<{ children: React.ReactNode }, { hasError: boolean }> {
+  state = { hasError: false };
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+  componentDidCatch(error: unknown) {
+    console.error('Map component error:', error);
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="w-full h-[540px] bg-slate-900 text-white rounded-xl p-8 flex flex-col items-center justify-center text-center space-y-4">
+          <div className="w-12 h-12 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-xl">
+            🗺️
+          </div>
+          <h3 className="text-lg font-bold">Interactive Map View Unavailable</h3>
+          <p className="text-xs text-slate-300 max-w-md leading-relaxed">
+            The map rendering encountered an unexpected issue. You can seamlessly explore all 39 neighborhood clusters using the Neighborhood Table or Listings Sample tabs above.
+          </p>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
