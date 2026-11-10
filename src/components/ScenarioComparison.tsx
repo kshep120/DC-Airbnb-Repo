@@ -166,9 +166,9 @@ export const ScenarioComparison: React.FC<ScenarioComparisonProps> = ({
   const [adr, setAdr] = useState<number>(calibratedADR);
   const [monthlyRent, setMonthlyRent] = useState<number>(neighborhoodMedianRent);
 
-  // Optional DC Sales & Transient Occupancy Tax Toggle (14.95%)
+  // Optional DC Sales & Transient Occupancy Tax Toggle (15.95%)
   // 10.05% DC Sales Tax on Transient Accommodations + 4.90% Convention Center Hotel Surcharge
-  const DC_TRANSIENT_TAX_RATE = 14.95;
+  const DC_TRANSIENT_TAX_RATE = 15.95;
   const [includeOccupancyTax, setIncludeOccupancyTax] = useState<boolean>(false);
 
   // Advanced toggles
@@ -258,7 +258,7 @@ export const ScenarioComparison: React.FC<ScenarioComparisonProps> = ({
       label: 'DLCP STR Licensing & Safety Gear',
       sharePercent: 10,
       effectivePercent: Number((strExpenseRate * 0.10).toFixed(1)),
-      description: 'DC DLCP STR license fee ($104.50 / 2-year fee), annual extinguisher inspections, replacement CO/smoke sensors.',
+      description: 'DC DLCP STR license fee ($99.00 / 2-year fee), annual extinguisher inspections, replacement CO/smoke sensors.',
     },
   ];
 
@@ -291,7 +291,7 @@ export const ScenarioComparison: React.FC<ScenarioComparisonProps> = ({
       label: 'DC DLCP License, Clean Hands & Filing',
       sharePercent: 10,
       effectivePercent: Number((strExpenseRate * 0.10).toFixed(1)),
-      description: 'DC DLCP unhosted STR license fee ($104.50 / 2-year), OTR business tax registration, Clean Hands verification.',
+      description: 'DC DLCP unhosted STR license fee ($99.00 / 2-year), OTR business tax registration, Clean Hands verification.',
     },
   ];
 
@@ -336,7 +336,7 @@ export const ScenarioComparison: React.FC<ScenarioComparisonProps> = ({
 
   // 2. Hosted Private Room (180 Nights)
   // Projected Annual Net Income = (60% of whole-home ADR * 180 nights) minus 15% operating expenses.
-  // Subject to DC 14.95% transient occupancy tax on short-term bookings (<90 days)
+  // Subject to DC 15.95% transient occupancy tax on short-term bookings (<90 days)
   const privateRoomADR = adr * (privateRoomRatio / 100);
   const scenario2Gross = privateRoomADR * hostedNights;
   const scenario2Expenses = scenario2Gross * (strExpenseRate / 100);
@@ -347,7 +347,7 @@ export const ScenarioComparison: React.FC<ScenarioComparisonProps> = ({
 
   // 3. Whole Home Short-Term (90-Night Cap)
   // Projected Annual Net Income = (Whole-home ADR * 90 nights) minus 15% operating expenses.
-  // Subject to DC 14.95% transient occupancy tax on short-term bookings (<90 days)
+  // Subject to DC 15.95% transient occupancy tax on short-term bookings (<90 days)
   const scenario3Gross = adr * wholeHomeNights;
   const scenario3Expenses = scenario3Gross * (strExpenseRate / 100);
   const scenario3Tax = scenario3Gross * (DC_TRANSIENT_TAX_RATE / 100);
@@ -436,7 +436,7 @@ export const ScenarioComparison: React.FC<ScenarioComparisonProps> = ({
   const breakEvenMonthlyRent = scenario3Net / (12 * (1 - longTermExpenseRate / 100));
 
   // What Whole-Home ADR needed to equal Long-Term net?
-  // Factoring in expenses and optional 14.95% DC transient tax
+  // Factoring in expenses and optional 15.95% DC transient tax
   const strEffectiveNetMargin = Math.max(0.01, 1 - strExpenseRate / 100 - (includeOccupancyTax ? DC_TRANSIENT_TAX_RATE / 100 : 0));
   const breakEvenWholeHomeADR = scenario1Net / (wholeHomeNights * strEffectiveNetMargin);
 
@@ -822,7 +822,7 @@ export const ScenarioComparison: React.FC<ScenarioComparisonProps> = ({
             </div>
           )}
         </div>
-        {/* D.C. Sales & Transient Occupancy Tax (14.95%) Optional Toggle Banner */}
+        {/* D.C. Sales & Transient Occupancy Tax (15.95%) Optional Toggle Banner */}
         <div className="mt-6 pt-5 border-t border-slate-100">
           <div className={`p-4 sm:p-5 rounded-xl border transition-all ${
             includeOccupancyTax
@@ -839,7 +839,7 @@ export const ScenarioComparison: React.FC<ScenarioComparisonProps> = ({
                 <div>
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="text-sm font-bold text-slate-900">
-                      D.C. Sales &amp; Transient Occupancy Tax (14.95%)
+                      D.C. Sales &amp; Transient Occupancy Tax (15.95%)
                     </span>
                     <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
                       includeOccupancyTax
@@ -850,7 +850,7 @@ export const ScenarioComparison: React.FC<ScenarioComparisonProps> = ({
                     </span>
                   </div>
                   <p className="text-xs text-slate-600 mt-1 max-w-2xl leading-relaxed">
-                    D.C. imposes a <strong>14.95% transient accommodations tax</strong> (10.05% sales tax + 4.90% hotel convention surcharge) on all short-term bookings under 90 days. <strong>Long-term 12-month residential leases are 100% tax-exempt.</strong> Toggle on to deduct this 14.95% tax from short-term rental gross earnings to calculate true after-tax homeowner net take-home pay.
+                    D.C. imposes a <strong>15.95% transient accommodations tax</strong> (10.05% sales tax + 4.90% hotel convention surcharge) on all short-term bookings under 90 days. <strong>Long-term 12-month residential leases are 100% tax-exempt.</strong> Toggle on to deduct this 15.95% tax from short-term rental gross earnings to calculate true after-tax homeowner net take-home pay.
                   </p>
                   {onNavigateToLegal && (
                     <button
@@ -877,7 +877,7 @@ export const ScenarioComparison: React.FC<ScenarioComparisonProps> = ({
                   className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2 ${
                     includeOccupancyTax ? 'bg-indigo-600' : 'bg-slate-300'
                   }`}
-                  title="Toggle D.C. 14.95% Transient Occupancy Tax"
+                  title="Toggle D.C. 15.95% Transient Occupancy Tax"
                 >
                   <span
                     className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-md ring-0 transition duration-200 ease-in-out ${
@@ -964,7 +964,7 @@ export const ScenarioComparison: React.FC<ScenarioComparisonProps> = ({
               <span>
                 {isSelectedHighestNet
                   ? (includeOccupancyTax
-                      ? 'Highest After-Tax Net Yield (14.95% DC Tax Deducted)'
+                      ? 'Highest After-Tax Net Yield (15.95% DC Tax Deducted)'
                       : 'Highest Financial Net Yield')
                   : 'User Selected Scenario'}
               </span>
@@ -977,7 +977,7 @@ export const ScenarioComparison: React.FC<ScenarioComparisonProps> = ({
             <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
               {isSelectedHighestNet ? (
                 <>
-                  Based on your current parameters{includeOccupancyTax ? ' (factoring in D.C.\'s 14.95% sales & transient occupancy tax)' : ''},{' '}
+                  Based on your current parameters{includeOccupancyTax ? ' (factoring in D.C.\'s 15.95% sales & transient occupancy tax)' : ''},{' '}
                   <strong className="text-white font-semibold">{activeScenario.name}</strong> projects{' '}
                   <strong className="text-emerald-400 font-mono font-bold tabular-nums">
                     {formatCurrency(activeScenario.net)}
@@ -1007,7 +1007,7 @@ export const ScenarioComparison: React.FC<ScenarioComparisonProps> = ({
                   <div>
                     <span className="font-bold text-white">After-Tax Dynamic: </span>
                     <span>
-                      Long-term residential leases are 100% exempt from the 14.95% transient tax ($0 tax). Short-term rental models forfeit 14.95% of gross revenue (${formatCurrency(scenario3Tax)} on whole-home, ${formatCurrency(scenario2Tax)} on room), substantially favoring long-term leasing.
+                      Long-term residential leases are 100% exempt from the 15.95% transient tax ($0 tax). Short-term rental models forfeit 15.95% of gross revenue (${formatCurrency(scenario3Tax)} on whole-home, ${formatCurrency(scenario2Tax)} on room), substantially favoring long-term leasing.
                     </span>
                   </div>
                 </div>
@@ -1015,7 +1015,7 @@ export const ScenarioComparison: React.FC<ScenarioComparisonProps> = ({
 
               {activeScenario.id === 'long_term' && (
                 <p>
-                  💡 <span className="text-slate-200">Homeowner Insight:</span> Because DC caps unhosted rentals at 90 nights{includeOccupancyTax ? ' and subjects STRs to a 14.95% occupancy tax' : ''}, a regular long-term tenant produces a steady, passive monthly cashflow that comfortably outpaces short-term rental earnings in this price tier without guest turnover overhead.
+                  💡 <span className="text-slate-200">Homeowner Insight:</span> Because DC caps unhosted rentals at 90 nights{includeOccupancyTax ? ' and subjects STRs to a 15.95% occupancy tax' : ''}, a regular long-term tenant produces a steady, passive monthly cashflow that comfortably outpaces short-term rental earnings in this price tier without guest turnover overhead.
                 </p>
               )}
               {activeScenario.id === 'hosted_room' && (
@@ -1224,7 +1224,7 @@ export const ScenarioComparison: React.FC<ScenarioComparisonProps> = ({
               </div>
               <div className="flex items-center justify-between py-2 border-b border-slate-100 min-h-[40px]">
                 <div className="flex items-center gap-1.5">
-                  <span className="text-slate-600">D.C. Transient Tax (14.95%)</span>
+                  <span className="text-slate-600">D.C. Transient Tax (15.95%)</span>
                   <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded">
                     Exempt
                   </span>
@@ -1310,7 +1310,7 @@ export const ScenarioComparison: React.FC<ScenarioComparisonProps> = ({
                 <span>{includeOccupancyTax ? 'After-Tax Net Income' : 'Projected Annual Net Income'}</span>
                 {includeOccupancyTax ? (
                   <span className="text-[10px] font-bold text-indigo-700 bg-indigo-50 px-1.5 py-0.5 rounded normal-case">
-                    After 14.95% Tax
+                    After 15.95% Tax
                   </span>
                 ) : (
                   <span className="text-[10px] font-medium text-slate-400">Pre-Tax</span>
@@ -1429,7 +1429,7 @@ export const ScenarioComparison: React.FC<ScenarioComparisonProps> = ({
               </div>
               <div className="flex items-center justify-between py-2 border-b border-slate-100 min-h-[40px]">
                 <div className="flex items-center gap-1.5">
-                  <span className="text-slate-600">D.C. Transient Tax (14.95%)</span>
+                  <span className="text-slate-600">D.C. Transient Tax (15.95%)</span>
                   <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${
                     includeOccupancyTax ? 'text-indigo-700 bg-indigo-50' : 'text-slate-500 bg-slate-100'
                   }`}>
@@ -1473,7 +1473,7 @@ export const ScenarioComparison: React.FC<ScenarioComparisonProps> = ({
               )}
             </button>
             <div className="text-xs text-slate-500 leading-relaxed min-h-[64px]">
-              <strong>DC Legal Note:</strong> Fully exempt from the 90-night cap because the owner is present during the guest's stay. Requires DC DLCP Short-Term Rental license. Subject to 14.95% transient tax.
+              <strong>DC Legal Note:</strong> Fully exempt from the 90-night cap because the owner is present during the guest's stay. Requires DC DLCP Short-Term Rental license. Subject to 15.95% transient tax.
             </div>
           </div>
         </div>
@@ -1517,7 +1517,7 @@ export const ScenarioComparison: React.FC<ScenarioComparisonProps> = ({
                 <span>{includeOccupancyTax ? 'After-Tax Net Income' : 'Projected Annual Net Income'}</span>
                 {includeOccupancyTax && (
                   <span className="text-[10px] font-bold text-indigo-700 bg-indigo-50 px-1.5 py-0.5 rounded normal-case">
-                    After 14.95% Tax
+                    After 15.95% Tax
                   </span>
                 )}
               </div>
@@ -1634,7 +1634,7 @@ export const ScenarioComparison: React.FC<ScenarioComparisonProps> = ({
               </div>
               <div className="flex items-center justify-between py-2 border-b border-slate-100 min-h-[40px]">
                 <div className="flex items-center gap-1.5">
-                  <span className="text-slate-600">D.C. Transient Tax (14.95%)</span>
+                  <span className="text-slate-600">D.C. Transient Tax (15.95%)</span>
                   <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${
                     includeOccupancyTax ? 'text-indigo-700 bg-indigo-50' : 'text-slate-500 bg-slate-100'
                   }`}>
@@ -1678,7 +1678,7 @@ export const ScenarioComparison: React.FC<ScenarioComparisonProps> = ({
               )}
             </button>
             <div className="text-xs text-slate-500 leading-relaxed min-h-[64px]">
-              <strong>DC Legal Note:</strong> Capped strictly at 90 nights per year under DC Act 22-540. Platforms automatically lock listings once 90 unhosted nights are reached. Subject to 14.95% transient tax.
+              <strong>DC Legal Note:</strong> Capped strictly at 90 nights per year under DC Act 22-540. Platforms automatically lock listings once 90 unhosted nights are reached. Subject to 15.95% transient tax.
             </div>
           </div>
         </div>
@@ -1693,7 +1693,7 @@ export const ScenarioComparison: React.FC<ScenarioComparisonProps> = ({
           </h3>
           <p className="text-xs text-slate-500 mb-6">
             {includeOccupancyTax
-              ? 'Net returns after deducting operating expenses AND D.C.\'s 14.95% sales & transient occupancy tax on short-term rentals.'
+              ? 'Net returns after deducting operating expenses AND D.C.\'s 15.95% sales & transient occupancy tax on short-term rentals.'
               : `Net returns after subtracting operating expenses (${longTermExpenseRate}% long-term, ${strExpenseRate}% STR).`}
           </p>
 

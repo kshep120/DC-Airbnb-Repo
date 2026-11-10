@@ -59,7 +59,7 @@ export function evaluateEligibility(answers: ScreenerAnswers): ScreenerResult {
     status: 'eligible',
     title: 'Eligible for DC Short-Term Rental License',
     message: '✅ Eligible for Short-Term Rental License! You are authorized to rent a private room indefinitely while present, or your entire home for up to 90 nights per year.',
-    details: 'As a primary resident owner without HOA prohibitions, you qualify for the official DC Department of Licensing and Consumer Protection (DLCP) Short-Term Rental License ($104.50 for a 2-year license). You can host guests in your home while present (hosted) with no annual night limit, or host unhosted entire-home stays up to 90 nights per calendar year.',
+    details: 'As a primary resident owner without HOA prohibitions, you qualify for the official DC Department of Licensing and Consumer Protection (DLCP) Short-Term Rental License ($99.00 for a 2-year license). You can host guests in your home while present (hosted) with no annual night limit, or host unhosted entire-home stays up to 90 nights per calendar year.',
     badgeType: 'success',
   };
 }
@@ -326,7 +326,7 @@ export const EligibilityScreener: React.FC<EligibilityScreenerProps> = ({
           </div>
           <h3 className="text-base font-bold text-slate-900">DLCP License & Clean Hands</h3>
           <p className="mt-2 text-sm text-slate-600 leading-relaxed">
-            Before listing on Airbnb, you must register through the DLCP portal ($104.50 fee), obtain a Certificate of Clean Hands from the Office of Tax and Revenue, and post your license number.
+            Before listing on Airbnb, you must register through the DLCP portal ($99.00 fee), obtain a Certificate of Clean Hands from the Office of Tax and Revenue, and post your license number.
           </p>
         </div>
       </div>

@@ -74,7 +74,7 @@ export const RegulationGuide: React.FC<RegulationGuideProps> = ({ onNavigateToSc
             <div className="text-xs font-bold text-blue-600 mb-1">Step 04</div>
             <h3 className="text-sm font-bold text-slate-900 mb-1">DLCP STR Application</h3>
             <p className="text-xs text-slate-600 leading-relaxed">
-              Submit the online Short-Term Rental License application ($104.50 fee; valid for 2 years).
+              Submit the online Short-Term Rental License application ($99.00 fee; valid for 2 years).
             </p>
           </div>
 
@@ -88,7 +88,7 @@ export const RegulationGuide: React.FC<RegulationGuideProps> = ({ onNavigateToSc
         </div>
       </div>
 
-      {/* D.C. Sales & Transient Occupancy Tax (14.95%) Compliance Guide */}
+      {/* D.C. Sales & Transient Occupancy Tax (15.95%) Compliance Guide */}
       <div className="bg-white rounded-xl border border-slate-200 p-6 sm:p-8 space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-5">
           <div>
@@ -97,10 +97,10 @@ export const RegulationGuide: React.FC<RegulationGuideProps> = ({ onNavigateToSc
               <span>Tax Compliance · D.C. Official Code § 47-2002 &amp; § 47-2002.02</span>
             </div>
             <h2 className="text-xl sm:text-2xl font-bold text-slate-900">
-              D.C. Sales &amp; Transient Occupancy Tax (14.95%) Guide
+              D.C. Sales &amp; Transient Occupancy Tax (15.95%) Guide
             </h2>
             <p className="text-xs sm:text-sm text-slate-600 mt-1 max-w-3xl leading-relaxed">
-              All short-term rental accommodations in the District of Columbia are subject to a combined 14.95% transient tax.
+              All short-term rental accommodations in the District of Columbia are subject to a combined 15.95% transient tax.
               Understanding how this tax is collected, who is exempt, and what forms must be filed with the D.C. Office of Tax and Revenue (OTR) is essential for every homeowner.
             </p>
           </div>
@@ -111,7 +111,7 @@ export const RegulationGuide: React.FC<RegulationGuideProps> = ({ onNavigateToSc
               onClick={onNavigateToScenarios}
               className="px-3.5 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-900 border border-indigo-200 rounded-lg text-xs font-semibold transition-colors flex items-center gap-1.5 shrink-0 self-start sm:self-center cursor-pointer shadow-xs"
             >
-              <span>Test 14.95% After-Tax Impact in Step 3</span>
+              <span>Test 15.95% After-Tax Impact in Step 3</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           )}
@@ -148,7 +148,7 @@ export const RegulationGuide: React.FC<RegulationGuideProps> = ({ onNavigateToSc
               Total Combined DC STR Tax
             </div>
             <div className="text-3xl font-extrabold font-mono text-indigo-900 tabular-nums">
-              14.95%
+              15.95%
             </div>
             <div className="text-xs text-indigo-800 mt-1 leading-relaxed">
               Applied to gross guest room charges, cleaning fees, and booking totals for stays under 90 consecutive days.
@@ -168,7 +168,7 @@ export const RegulationGuide: React.FC<RegulationGuideProps> = ({ onNavigateToSc
               <li className="flex items-start gap-2">
                 <span className="text-rose-600 font-bold">•</span>
                 <span>
-                  <strong>Short-Term Rentals (&lt;90 Nights):</strong> Subject to the full 14.95% transient tax. Applies to whole homes and hosted private rooms rented for fewer than 90 consecutive days.
+                  <strong>Short-Term Rentals (&lt;90 Nights):</strong> Subject to the full 15.95% transient tax. Applies to whole homes and hosted private rooms rented for fewer than 90 consecutive days.
                 </span>
               </li>
               <li className="flex items-start gap-2">
@@ -180,7 +180,7 @@ export const RegulationGuide: React.FC<RegulationGuideProps> = ({ onNavigateToSc
               <li className="flex items-start gap-2">
                 <span className="text-blue-600 font-bold">•</span>
                 <span>
-                  <strong>Why This Matters for Decisions:</strong> In Step 3, toggling the 14.95% after-tax option reveals that a long-term lease often out-earns short-term rentals because long-term rentals avoid this heavy 14.95% haircut.
+                  <strong>Why This Matters for Decisions:</strong> In Step 3, toggling the 15.95% after-tax option reveals that a long-term lease often out-earns short-term rentals because long-term rentals avoid this heavy 15.95% haircut.
                 </span>
               </li>
             </ul>
@@ -196,7 +196,7 @@ export const RegulationGuide: React.FC<RegulationGuideProps> = ({ onNavigateToSc
               <li className="flex items-start gap-2">
                 <span className="text-indigo-600 font-bold">•</span>
                 <span>
-                  <strong>Marketplace Facilitator Remittance:</strong> Under D.C. Law 22-311, Airbnb and VRBO automatically collect the 14.95% tax from guests and remit it directly to the D.C. Office of Tax and Revenue on platform bookings.
+                  <strong>Marketplace Facilitator Remittance:</strong> Under D.C. Law 22-311, Airbnb and VRBO automatically collect the 15.95% tax from guests and remit it directly to the D.C. Office of Tax and Revenue on platform bookings.
                 </span>
               </li>
               <li className="flex items-start gap-2">
@@ -208,7 +208,7 @@ export const RegulationGuide: React.FC<RegulationGuideProps> = ({ onNavigateToSc
               <li className="flex items-start gap-2">
                 <span className="text-rose-600 font-bold">•</span>
                 <span>
-                  <strong>Direct / Off-Platform Bookings:</strong> If you book guests directly (off Airbnb), you are personally responsible for collecting and remitting the 14.95% tax monthly or quarterly to D.C. OTR.
+                  <strong>Direct / Off-Platform Bookings:</strong> If you book guests directly (off Airbnb), you are personally responsible for collecting and remitting the 15.95% tax monthly or quarterly to D.C. OTR.
                 </span>
               </li>
             </ul>
@@ -221,7 +221,7 @@ export const RegulationGuide: React.FC<RegulationGuideProps> = ({ onNavigateToSc
           <div className="space-y-1">
             <span className="font-bold">Sales &amp; Transient Tax vs. Federal &amp; D.C. Income Taxes:</span>
             <p className="leading-relaxed text-amber-800">
-              The 14.95% transient tax is a consumption tax paid by guests on accommodations. Homeowners must still report net rental income on IRS Schedule E (or Schedule C if substantial services are provided) and D.C. Individual Income Tax (Form D-40). If your rental gross receipts exceed $12,000, you may also need to file D.C. Form D-30 (Unincorporated Business Franchise Tax). Consult a certified DC tax advisor for personalized tax planning.
+              The 15.95% transient tax is a consumption tax paid by guests on accommodations. Homeowners must still report net rental income on IRS Schedule E (or Schedule C if substantial services are provided) and D.C. Individual Income Tax (Form D-40). If your rental gross receipts exceed $12,000, you may also need to file D.C. Form D-30 (Unincorporated Business Franchise Tax). Consult a certified DC tax advisor for personalized tax planning.
             </p>
           </div>
         </div>

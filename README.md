@@ -38,7 +38,7 @@ Models and compares the three legally permitted occupancy strategies side-by-sid
 #### Advanced Step 3 Capabilities:
 * **Bedroom Disaggregation Dropdown Menu**: Options from **1 to 10 Bedrooms** (or *All Bedrooms*). Disaggregates market Average Daily Rates and monthly residential rent medians using empirical D.C. market curves.
 * **Operating Expense Dropdowns**: Each of the 3 scenario cards includes a dropdown with an itemized breakdown of expected operating expenses (routine maintenance reserves, vacancy buffer, landlord DP-3 insurance, DLCP licensing, Airbnb platform fees, guest amenities, etc.).
-* **14.95% D.C. Transient Tax Toggle**: Models the impact of D.C.'s 10.05% transient accommodations sales tax + 4.90% Convention Center hotel surcharge.
+* **15.95% D.C. Transient Tax Toggle**: Models the impact of D.C.'s 10.05% transient accommodations sales tax + 4.90% Convention Center hotel surcharge.
 * **Homeowner Strategy Selector**: Allows the homeowner to pick between any of the 3 scenarios, synchronizing the dynamic highlights and executive report to their choice.
 * **Break-Even Analysis**: Calculates required nightly rates and nights hosted to beat long-term leasing.
 

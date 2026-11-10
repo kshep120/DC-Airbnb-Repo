@@ -65,7 +65,7 @@ export const ReportModal: React.FC<ReportModalProps> = ({
   if (!isOpen) return null;
 
   // Financial computations
-  const DC_TRANSIENT_TAX_RATE = 14.95;
+  const DC_TRANSIENT_TAX_RATE = 15.95;
 
   // Scenario 1: Long-term lease
   const s1Gross = monthlyRent * 12;
@@ -235,7 +235,7 @@ export const ReportModal: React.FC<ReportModalProps> = ({
           <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
             <div className="flex items-center justify-between text-xs border-b border-slate-200 pb-2">
               <span className="font-bold text-slate-700 uppercase tracking-wider">Report Focus Summary</span>
-              <span className="font-mono text-slate-500">Mode: {includeOccupancyTax ? 'After-Tax (14.95% STR Tax)' : 'Standard Pre-Tax'}</span>
+              <span className="font-mono text-slate-500">Mode: {includeOccupancyTax ? 'After-Tax (15.95% STR Tax)' : 'Standard Pre-Tax'}</span>
             </div>
 
             {/* Selected Scenario pill */}
@@ -271,7 +271,7 @@ export const ReportModal: React.FC<ReportModalProps> = ({
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                <span><strong>D.C. Tax &amp; Licensing Roadmap:</strong> 14.95% sales tax rules, marketplace collection, and 5-step DLCP licensing checklist.</span>
+                <span><strong>D.C. Tax &amp; Licensing Roadmap:</strong> 15.95% sales tax rules, marketplace collection, and 5-step DLCP licensing checklist.</span>
               </div>
             </div>
           </div>

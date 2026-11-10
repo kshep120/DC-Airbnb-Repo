@@ -31,7 +31,7 @@ export function generateDecisionReportPDF(data: PDFReportData): void {
   const contentWidth = pageWidth - margin * 2; // 532 pt
 
   // Financial Calculations
-  const DC_TRANSIENT_TAX_RATE = 14.95;
+  const DC_TRANSIENT_TAX_RATE = 15.95;
 
   // Scenario 1: Long-term lease
   const s1Gross = data.monthlyRent * 12;
@@ -103,7 +103,7 @@ export function generateDecisionReportPDF(data: PDFReportData): void {
     year: 'numeric',
   });
   doc.text('Report Date: ' + today, margin + contentWidth - 14, y + 22, { align: 'right' });
-  doc.text('Tax Mode: ' + (data.includeOccupancyTax ? 'After-Tax (14.95%)' : 'Pre-Tax Standard'), margin + contentWidth - 14, y + 38, { align: 'right' });
+  doc.text('Tax Mode: ' + (data.includeOccupancyTax ? 'After-Tax (15.95%)' : 'Pre-Tax Standard'), margin + contentWidth - 14, y + 38, { align: 'right' });
 
   y += 66;
 
@@ -159,7 +159,7 @@ export function generateDecisionReportPDF(data: PDFReportData): void {
   if (isSelectedHighest) {
     const delta = highestNetScenario.net - secondHighest.net;
     subtext = 'Selected by homeowner. Generates ' + formatCurrency(delta) + ' more net income annually than runner-up (' + secondHighest.name + '). ' +
-      (data.includeOccupancyTax ? 'Includes D.C.\'s 14.95% transient occupancy tax deduction.' : 'Standard operational expenses modeled.');
+      (data.includeOccupancyTax ? 'Includes D.C.\'s 15.95% transient occupancy tax deduction.' : 'Standard operational expenses modeled.');
   } else {
     const diff = highestNetScenario.net - selectedScenario.net;
     subtext = 'Selected by homeowner (' + formatCurrency(selectedScenario.monthly) + '/mo net). Top financial yield is ' + highestNetScenario.name + ' (' + formatCurrency(highestNetScenario.net) + '/yr, +' + formatCurrency(diff) + ' delta).';
@@ -272,7 +272,7 @@ export function generateDecisionReportPDF(data: PDFReportData): void {
       s3: '- ' + formatCurrency(s3Expenses)
     },
     {
-      label: 'D.C. Transient Tax (14.95%)',
+      label: 'D.C. Transient Tax (15.95%)',
       s1: '$0 (100% Tax-Exempt)',
       s2: data.includeOccupancyTax ? '- ' + formatCurrency(s2Tax) : 'Excl. (' + formatCurrency(s2Tax) + ' est)',
       s3: data.includeOccupancyTax ? '- ' + formatCurrency(s3Tax) : 'Excl. (' + formatCurrency(s3Tax) + ' est)'
@@ -503,15 +503,15 @@ export function generateDecisionReportPDF(data: PDFReportData): void {
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(8.5);
   doc.setTextColor(cIndigo900[0], cIndigo900[1], cIndigo900[2]);
-  doc.text('D.C. Sales & Transient Occupancy Tax (14.95% Total)', margin + 10, y + 15);
+  doc.text('D.C. Sales & Transient Occupancy Tax (15.95% Total)', margin + 10, y + 15);
 
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(7.5);
   doc.setTextColor(cSlate600[0], cSlate600[1], cSlate600[2]);
   doc.text(
     '- Composition: 10.05% D.C. Sales Tax on Transient Accommodations + 4.90% Convention Hotel Surcharge.\n' +
-    '- Exemption Rule: Stays <90 days are subject to 14.95%. Residential leases >= 90 days (12 mo lease) are 100% Tax-Exempt.\n' +
-    '- Collection: Airbnb & VRBO collect and remit the 14.95% tax automatically on marketplace bookings.',
+    '- Exemption Rule: Stays <90 days are subject to 15.95%. Residential leases >= 90 days (12 mo lease) are 100% Tax-Exempt.\n' +
+    '- Collection: Airbnb & VRBO collect and remit the 15.95% tax automatically on marketplace bookings.',
     margin + 10,
     y + 27,
     { maxWidth: contentWidth - 20 }
@@ -534,7 +534,7 @@ export function generateDecisionReportPDF(data: PDFReportData): void {
     { num: 'Step 1', title: 'Homestead Check:', desc: 'Confirm property receives DC Homestead Tax Deduction (verifies primary residency).' },
     { num: 'Step 2', title: 'Clean Hands Cert:', desc: 'Obtain from DC Office of Tax & Revenue (verifies <$100 outstanding debt to DC).' },
     { num: 'Step 3', title: 'Life Safety Gear:', desc: 'Install functioning smoke/CO alarms, 2A:10B:C fire extinguisher & egress diagram.' },
-    { num: 'Step 4', title: 'DLCP Application:', desc: 'Submit online application at dlcp.dc.gov ($104.50 fee; valid for 2 full years).' },
+    { num: 'Step 4', title: 'DLCP Application:', desc: 'Submit online application at dlcp.dc.gov ($99.00 fee; valid for 2 full years).' },
     { num: 'Step 5', title: 'FR-500 Tax Reg:', desc: 'Register business with DC OTR via MyTax.DC.gov and input license # on Airbnb/VRBO.' },
   ];
 
