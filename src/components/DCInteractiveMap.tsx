@@ -311,6 +311,7 @@ export const DCInteractiveMap: React.FC<DCInteractiveMapProps> = ({
                 >
                   {/* Render Colored Polygons for all 39 DC Neighborhoods */}
                   {Object.entries(dcBoundaries).map(([name, rings]) => {
+                    if (!rings || !rings[0] || !Array.isArray(rings[0])) return null;
                     const stat = neighborhoodStats.get(name);
                     const price = stat?.medianPrice ?? 150;
                     const colors = getRateTierColor(price);
@@ -480,6 +481,7 @@ export const DCInteractiveMap: React.FC<DCInteractiveMapProps> = ({
 
                 {/* Render each neighborhood as SVG polygon */}
                 {Object.entries(dcBoundaries).map(([name, rings]) => {
+                  if (!rings || !rings[0] || !Array.isArray(rings[0])) return null;
                   const stat = neighborhoodStats.get(name);
                   const price = stat?.medianPrice ?? 150;
                   const colors = getRateTierColor(price);
@@ -494,6 +496,8 @@ export const DCInteractiveMap: React.FC<DCInteractiveMapProps> = ({
                       return `${x.toFixed(1)},${y.toFixed(1)}`;
                     })
                     .join(' ');
+
+                  if (!pointsStr) return null;
 
                   return (
                     <polygon
